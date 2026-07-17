@@ -1,0 +1,13 @@
+# This public repo carries ONLY the public-facing overview (README.md) and the presentation
+# (docs/index.html). The actual Google Apps Script application - server code (.gs), HTML
+# templates, appsscript.json, security model, validation rules, sheet structure - stays inside
+# Google Apps Script only, managed locally via clasp, and is deliberately never committed here.
+# This is an allowlist, not a denylist: everything is ignored by default, and only the files
+# explicitly un-ignored below will ever be tracked. If you add a new file that should be public,
+# add a matching "!" line for it - don't loosen the leading "*".
+*
+
+!.gitignore
+!README.md
+!docs/
+!docs/index.html
