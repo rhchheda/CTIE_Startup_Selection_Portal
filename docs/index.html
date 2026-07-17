@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLE CTIE Incubation Portal — Briefing</title>
+<style>
+/* Tokens lifted directly from the live portal's own Styles.html - not a derived palette. */
+:root{
+  --navy-900:#0B2540; --navy-800:#0F3358; --navy-700:#16406C; --navy-600:#1E5391;
+  --gold-500:#D9A441; --gold-600:#C68F2E; --gold-300:#E7C57A;
+  --bg:#F4F6F9; --surface:#FFFFFF; --border:#E2E7EF;
+  --ink-900:#1C2530; --ink-600:#64748B; --ink-400:#94A3B8;
+  --success:#1E8E5A; --success-bg:#E6F4EC; --danger:#C43D3D; --line:rgba(11,37,64,.12);
+  --shadow:0 20px 50px -20px rgba(11,37,64,.35);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink-900);font-family:"Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.app-shell{height:100vh;height:100dvh;overflow-y:auto;overflow-x:hidden;position:relative;}
+h1,h2,h3{margin:0;font-weight:700;text-wrap:balance;}
+p{margin:0;}
+a{color:inherit}
+.mono{font-family:"SF Mono","Cascadia Code",Consolas,monospace;font-variant-numeric:tabular-nums;}
+
+.slide{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:88px clamp(24px,7vw,120px);border-bottom:1px solid var(--line);}
+.slide-inner{width:100%;max-width:1040px;margin:0 auto;}
+.eyebrow{font-family:"SF Mono",Consolas,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-600);display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--gold-600);display:inline-block;}
+.dark-bg{background:var(--navy-900);color:#F4F6F9;}
+.dark-bg .eyebrow{color:var(--gold-300);}
+.dark-bg .eyebrow::before{background:var(--gold-300);}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important;}}
+
+.rail{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:13px;z-index:50;}
+.rail button{width:9px;height:9px;border-radius:50%;background:none;border:1.5px solid rgba(11,37,64,.2);cursor:pointer;padding:0;transition:all .25s ease;position:relative;}
+.rail button.on{background:var(--gold-500);border-color:var(--gold-500);transform:scale(1.3);}
+.rail .tip{position:absolute;right:20px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:11px;background:var(--navy-900);color:#fff;padding:5px 10px;border-radius:5px;opacity:0;pointer-events:none;transition:opacity .18s ease;}
+.rail button:hover .tip{opacity:1;}
+@media (max-width:760px){.rail{display:none;}}
+
+/* Cover */
+.cover{background:linear-gradient(175deg,#081C31 0%,var(--navy-900) 55%,var(--navy-700) 100%);color:#F4F6F9;justify-content:space-between;padding-top:64px;padding-bottom:56px;}
+.masthead{display:flex;align-items:center;justify-content:center;gap:14px;max-width:1040px;margin:0 auto;width:100%;padding-bottom:30px;border-bottom:1px solid rgba(244,246,249,.16);}
+.mh-badge{background:#fff;color:var(--navy-900);border-radius:8px;padding:8px 16px;font-weight:800;font-size:13px;letter-spacing:.03em;box-shadow:0 4px 14px rgba(0,0,0,.22);}
+.mh-title{text-align:center;}
+.mh-primary{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:.01em;}
+.mh-secondary{margin-top:6px;font-size:clamp(12px,1.5vw,14px);color:var(--gold-300);}
+.cover-mid{max-width:1040px;margin:44px auto 0;width:100%;}
+.cover h1{font-size:clamp(28px,3.6vw,42px);line-height:1.15;letter-spacing:-.005em;max-width:20ch;}
+.cover h1 em{font-style:normal;color:var(--gold-300);}
+.cover p.lede{margin-top:20px;font-size:16px;line-height:1.7;color:rgba(244,246,249,.72);max-width:52ch;}
+.cover-audience{margin-top:28px;display:flex;gap:10px;flex-wrap:wrap;}
+.pill{border:1px solid rgba(244,246,249,.22);border-radius:100px;padding:6px 14px;font-size:12px;color:rgba(244,246,249,.85);font-family:"SF Mono",monospace;}
+.cover-bottom{max-width:1040px;margin:40px auto 0;width:100%;display:flex;align-items:center;justify-content:space-between;padding-top:26px;border-top:1px solid rgba(244,246,249,.14);}
+.scrollcue{display:flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(244,246,249,.5);}
+.scrollcue .arrow{width:13px;height:13px;border-right:1.5px solid rgba(244,246,249,.5);border-bottom:1.5px solid rgba(244,246,249,.5);transform:rotate(45deg);animation:bob 1.8s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:rotate(45deg) translate(0,0)}50%{transform:rotate(45deg) translate(3px,3px)}}
+.cover-date{font-family:"SF Mono",monospace;font-size:11px;color:rgba(244,246,249,.45);}
+
+h2.title{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.01em;}
+.lede-lg{font-size:18px;line-height:1.7;color:var(--ink-600);max-width:62ch;margin-top:16px;}
+.dark-bg .lede-lg{color:rgba(244,246,249,.72);}
+
+/* Pain points */
+.pain-grid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.pain-cell{background:var(--surface);padding:24px 22px;}
+.pain-cell .k{font-family:"SF Mono",monospace;font-size:11px;color:var(--danger);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;display:block;}
+.pain-cell p{font-size:14px;color:var(--ink-600);line-height:1.65;}
+.pain-cell strong{color:var(--ink-900);font-weight:700;}
+@media (max-width:760px){.pain-grid{grid-template-columns:1fr;}}
+
+/* Architecture rows */
+.arch-wrap{margin-top:44px;}
+.arch-row{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:20px 0;border-top:1px solid var(--line);}
+.arch-row:last-child{border-bottom:1px solid var(--line);}
+.arch-tag{font-family:"SF Mono",monospace;font-size:11px;color:var(--gold-600);padding-top:3px;}
+.arch-row h3{font-size:16px;margin-bottom:6px;}
+.arch-row p{font-size:14px;color:var(--ink-600);line-height:1.65;max-width:70ch;}
+.arch-note{margin-top:28px;padding:16px 18px;border-left:2px solid var(--gold-500);background:#FFF8E1;font-size:13.5px;color:var(--ink-600);line-height:1.7;border-radius:0 4px 4px 0;}
+.arch-note strong{color:var(--ink-900);}
+
+/* Live links */
+.link-grid{margin-top:36px;display:grid;grid-template-columns:1fr;gap:16px;}
+.link-card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px 24px;box-shadow:var(--shadow);}
+.link-card .tag{font-family:"SF Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-600);}
+.link-card h4{font-size:16px;margin:8px 0 8px;}
+.link-card p{font-size:13.5px;color:var(--ink-600);line-height:1.6;}
+.link-card a.go{display:inline-block;margin-top:14px;background:var(--navy-800);color:#fff;padding:9px 18px;border-radius:6px;font-size:13px;font-weight:700;text-decoration:none;}
+.link-card a.go:hover{background:var(--navy-700);}
+
+/* Journey */
+.journey{margin-top:44px;display:flex;flex-direction:column;}
+.j-step{display:grid;grid-template-columns:52px 1fr;gap:18px;position:relative;padding-bottom:28px;}
+.j-step:last-child{padding-bottom:0;}
+.j-step::before{content:'';position:absolute;left:25px;top:52px;bottom:-4px;width:1px;background:rgba(244,246,249,.16);}
+.j-step:last-child::before{display:none;}
+.j-num{width:52px;height:52px;border-radius:50%;background:var(--navy-700);border:1.5px solid var(--gold-300);display:flex;align-items:center;justify-content:center;font-family:"SF Mono",monospace;font-size:13px;font-weight:700;color:var(--gold-300);z-index:1;flex-shrink:0;}
+.j-step.final .j-num{background:var(--gold-300);color:var(--navy-900);border-color:var(--gold-300);font-size:18px;}
+.j-body{padding-top:6px;}
+.j-when{font-family:"SF Mono",monospace;font-size:11px;color:var(--gold-300);letter-spacing:.03em;}
+.j-title{font-size:15px;font-weight:700;margin-top:4px;}
+.j-detail{font-size:13px;color:rgba(244,246,249,.65);line-height:1.65;margin-top:5px;max-width:62ch;}
+
+/* Rubric */
+.rubric-grid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.rubric-cell{background:var(--surface);padding:22px;}
+.rubric-cell .n{font-family:"SF Mono",monospace;font-size:11px;color:var(--gold-600);}
+.rubric-cell h4{font-size:14.5px;margin:8px 0 6px;}
+.rubric-cell p{font-size:12.5px;color:var(--ink-600);line-height:1.6;}
+@media (max-width:760px){.rubric-grid{grid-template-columns:1fr;}}
+
+/* Benefits */
+.benefit-grid{margin-top:40px;display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.benefit-card{background:var(--surface);padding:26px 24px;}
+.benefit-card .who{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;}
+.benefit-card .who .n{font-family:"SF Mono",monospace;font-size:12px;color:var(--gold-600);}
+.benefit-card .who h3{font-size:16px;}
+.benefit-card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;}
+.benefit-card li{font-size:13px;color:var(--ink-600);line-height:1.6;padding-left:16px;position:relative;}
+.benefit-card li::before{content:"—";position:absolute;left:0;color:var(--gold-500);}
+.benefit-card li strong{color:var(--ink-900);font-weight:700;}
+@media (max-width:760px){.benefit-grid{grid-template-columns:1fr;}}
+
+/* Security */
+.sec-grid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.sec-item h4{font-size:14px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.sec-item h4::before{content:"";width:6px;height:6px;background:var(--gold-500);display:inline-block;border-radius:1px;}
+.sec-item p{font-size:13px;color:var(--ink-600);line-height:1.65;}
+@media (max-width:760px){.sec-grid{grid-template-columns:1fr;}}
+
+/* Closing */
+.closing{background:var(--navy-900);color:#F4F6F9;justify-content:center;text-align:left;}
+.closing .slide-inner{display:flex;flex-direction:column;align-items:flex-start;}
+.closing h2{font-size:clamp(28px,4vw,42px);max-width:20ch;}
+.closing .lede-lg{color:rgba(244,246,249,.68);}
+.closing a.go{display:inline-block;margin-top:28px;background:var(--gold-500);color:var(--navy-900);padding:12px 24px;border-radius:6px;font-size:14px;font-weight:800;text-decoration:none;}
+.closing a.go:hover{background:var(--gold-600);}
+
+/* Sticky footer, same pattern as the live portal's .footer */
+.footer{position:sticky;left:0;right:0;bottom:0;z-index:999;background:rgba(11,37,64,.95);border-top:1px solid rgba(217,164,65,.3);padding:8px 16px;display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;text-align:center;font-size:11.5px;color:rgba(244,246,249,.75);font-family:"SF Mono",monospace;}
+.footer .heart{color:#E24B4A;display:inline-block;animation:hb .9s ease-in-out infinite;}
+@keyframes hb{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+@media (prefers-reduced-motion:reduce){.footer .heart{animation:none;}}
+.footer .div{color:rgba(217,164,65,.45);}
+
+::-webkit-scrollbar{width:9px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(11,37,64,.25);border-radius:6px;}
+</style>
+</head>
+<body>
+<div class="app-shell" id="appShell">
+
+<nav class="rail" id="rail"></nav>
+
+<div class="deck">
+
+  <!-- 0: Cover -->
+  <section class="slide cover" data-title="Cover">
+    <div class="slide-inner">
+      <div class="masthead">
+        <div class="mh-badge">KLE TECH</div>
+        <div class="mh-title">
+          <div class="mh-primary">KLE CTIE Incubation Portal</div>
+          <div class="mh-secondary">Briefing for CTIE Leadership</div>
+        </div>
+        <div class="mh-badge" style="background:var(--gold-500);color:var(--navy-900);">CTIE</div>
+      </div>
+      <div class="cover-mid">
+        <div class="eyebrow">Live product · not a mockup</div>
+        <h1>A single portal for KLE&#8209;CTIE's <em>startup selection</em> process.</h1>
+        <p class="lede">Applications, jury scoring, and staff decisions - from first submission to final call - in one system of record, not split across email threads and spreadsheets.</p>
+        <div class="cover-audience">
+          <span class="pill">Applicant</span><span class="pill">Jury</span><span class="pill">Staff</span><span class="pill">Admin</span>
+        </div>
+      </div>
+      <div class="cover-bottom">
+        <div class="scrollcue"><span>Scroll to explore</span><span class="arrow"></span></div>
+        <div class="cover-date mono" id="briefDate"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1: Pain points -->
+  <section class="slide" data-title="The problem">
+    <div class="slide-inner">
+      <div class="eyebrow">The problem</div>
+      <h2 class="title reveal">Selection was split across inboxes, attachments, and memory.</h2>
+      <div class="pain-grid reveal">
+        <div class="pain-cell"><span class="k">Scattered</span><p>Applications arrived as attachments in a dozen formats, with no single record of who applied, when, or for which cohort.</p></div>
+        <div class="pain-cell"><span class="k">No visibility</span><p>Once a jury member said they'd "take a look," there was no way to see if they had, or what they thought, until someone asked directly.</p></div>
+        <div class="pain-cell"><span class="k">Manual tallying</span><p>Combining scores across jurors meant manually averaging numbers pulled from separate emails or sheets before a decision could even be discussed.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2: Architecture -->
+  <section class="slide" data-title="How it's built">
+    <div class="slide-inner">
+      <div class="eyebrow">The system</div>
+      <h2 class="title reveal">One system of record, four roles, no new infrastructure.</h2>
+      <div class="arch-wrap reveal">
+        <div class="arch-row"><div class="arch-tag">01</div><div><h3>Applicant</h3><p>Signs in with a Google account or a passwordless one-time email code, submits once through a guided wizard, and tracks status from the same place.</p></div></div>
+        <div class="arch-row"><div class="arch-tag">02</div><div><h3>Jury</h3><p>Sees only what's explicitly assigned, scores a fixed six-criterion rubric, and leaves a recommendation - nothing more to configure.</p></div></div>
+        <div class="arch-row"><div class="arch-tag">03</div><div><h3>Staff</h3><p>Owns the pipeline end to end: opens cohorts, assigns jurors, watches scores land, and records the final decision.</p></div></div>
+        <div class="arch-row"><div class="arch-tag">04</div><div><h3>Admin</h3><p>Everything Staff can do, plus user roles, portal branding, and the full audit trail of every action taken.</p></div></div>
+      </div>
+      <div class="arch-note reveal"><strong>Runs on Google Sheets + Apps Script</strong> - the infrastructure CTIE already trusts and already has access to. No separate database, server, or hosting bill to maintain.</div>
+    </div>
+  </section>
+
+  <!-- 3: Live links -->
+  <section class="slide" data-title="Try it">
+    <div class="slide-inner">
+      <div class="eyebrow">Not a concept deck</div>
+      <h2 class="title reveal">The link below opens the live portal.</h2>
+      <div class="link-grid reveal">
+        <div class="link-card">
+          <span class="tag">Startup founders</span>
+          <h4>Apply, or track an existing application</h4>
+          <p>No account needed in advance - sign in with a one-time code sent to your email, any email address works.</p>
+          <a class="go" href="https://script.google.com/a/macros/kletech.ac.in/s/AKfycbxEOQKwLsyxTDGVhbm3Ca2xbD62g6pfJ5mwUlHnQbw/exec">Open the portal &rarr;</a>
+        </div>
+      </div>
+      <p class="small" style="margin-top:18px;color:var(--ink-600);font-size:13px;">CTIE Staff and Jury sign in through a separate Google-account-only link, shared directly with the team rather than published here.</p>
+    </div>
+  </section>
+
+  <!-- 4: Journey -->
+  <section class="slide dark-bg" data-title="The journey">
+    <div class="slide-inner">
+      <div class="eyebrow">The journey</div>
+      <h2 class="title reveal">From submission to decision, every step is tracked.</h2>
+      <div class="journey reveal">
+        <div class="j-step">
+          <div class="j-num">1</div>
+          <div class="j-body"><div class="j-when">Cohort open</div><div class="j-title">Applicant completes the wizard</div><div class="j-detail">Self info, startup info, product &amp; revenue, financials &amp; stage, business plan, and supporting documents. An Application ID is issued the moment they submit.</div></div>
+        </div>
+        <div class="j-step">
+          <div class="j-num">2</div>
+          <div class="j-body"><div class="j-when">Intake review</div><div class="j-title">Staff assigns jury members</div><div class="j-detail">Each assigned juror is notified by email and gets viewer access to the application's uploaded documents.</div></div>
+        </div>
+        <div class="j-step">
+          <div class="j-num">3</div>
+          <div class="j-body"><div class="j-when">Jury scoring</div><div class="j-title">Six criteria, 1-5 each, plus a recommendation</div><div class="j-detail">The first score submitted automatically moves the application from Submitted to Under Review - no manual status update needed.</div></div>
+        </div>
+        <div class="j-step final">
+          <div class="j-num">&#10003;</div>
+          <div class="j-body"><div class="j-when">Final call</div><div class="j-title">Staff records the decision</div><div class="j-detail">Shortlisted, Selected, Not Selected, or On Hold. A Shortlisted decision automatically books a Calendar review meeting with a Meet link for the applicant and every assigned juror - and the applicant is emailed at every single status change, automatically.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5: Rubric -->
+  <section class="slide" data-title="The rubric">
+    <div class="slide-inner">
+      <div class="eyebrow">Scoring, standardized</div>
+      <h2 class="title reveal">The same six criteria, every application, every juror.</h2>
+      <p class="lede-lg reveal">Each criterion is scored 1 (weak) to 5 (excellent). The average across all six becomes that juror's total; the average across every assigned juror becomes the application's aggregate score.</p>
+      <div class="rubric-grid reveal">
+        <div class="rubric-cell"><span class="n">01</span><h4>Team Strength &amp; Execution</h4><p>Does the founding team have the skills and track record to execute?</p></div>
+        <div class="rubric-cell"><span class="n">02</span><h4>Idea / Product Differentiation</h4><p>How distinct and defensible is the product versus existing alternatives?</p></div>
+        <div class="rubric-cell"><span class="n">03</span><h4>Market Size &amp; Revenue Potential</h4><p>Is the addressable market large enough to support real growth?</p></div>
+        <div class="rubric-cell"><span class="n">04</span><h4>Financial Viability</h4><p>Do the CAPEX, OPEX, P&amp;L, and revenue path hold together?</p></div>
+        <div class="rubric-cell"><span class="n">05</span><h4>Stage Readiness</h4><p>Is the startup's current stage realistic for what they're asking for?</p></div>
+        <div class="rubric-cell"><span class="n">06</span><h4>Strategic Fit</h4><p>Make in India, import substitution, ecosystem strengthening, or social impact.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6: Benefits -->
+  <section class="slide" data-title="Who it's for">
+    <div class="slide-inner">
+      <div class="eyebrow">Built for four audiences</div>
+      <h2 class="title reveal">Not one dashboard trying to be everything.</h2>
+      <div class="benefit-grid reveal">
+        <div class="benefit-card"><div class="who"><span class="n">01</span><h3>Applicant</h3></div><ul>
+          <li><strong>One place to apply and track</strong> - no separate email thread to keep alive.</li>
+          <li><strong>Edit until reviewed</strong> - fix mistakes any time before a decision locks it.</li>
+          <li><strong>Notified automatically</strong> - every status change triggers an email.</li>
+        </ul></div>
+        <div class="benefit-card"><div class="who"><span class="n">02</span><h3>Jury</h3></div><ul>
+          <li><strong>Only what's assigned to you</strong> - no wading through the full pipeline.</li>
+          <li><strong>One consistent rubric</strong> - same six criteria for every application.</li>
+          <li><strong>Revisable</strong> - update your score any time before a decision is made.</li>
+        </ul></div>
+        <div class="benefit-card"><div class="who"><span class="n">03</span><h3>Staff</h3></div><ul>
+          <li><strong>Full pipeline visibility</strong> - scoring progress and aggregate scores at a glance.</li>
+          <li><strong>One-click decisions</strong> - meeting scheduling and applicant emails happen automatically.</li>
+          <li><strong>Cohort control</strong> - open and close application windows on your own schedule.</li>
+        </ul></div>
+        <div class="benefit-card"><div class="who"><span class="n">04</span><h3>Admin</h3></div><ul>
+          <li><strong>User management</strong> - add or deactivate Staff, Jury, and Admin access.</li>
+          <li><strong>Branding control</strong> - swap the portal's logos without touching code.</li>
+          <li><strong>Full audit trail</strong> - every submission, assignment, and decision, timestamped.</li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7: Security -->
+  <section class="slide" data-title="Security">
+    <div class="slide-inner">
+      <div class="eyebrow">Security, briefly</div>
+      <h2 class="title reveal">Access is checked on every call - not just at sign-in.</h2>
+      <div class="sec-grid reveal">
+        <div class="sec-item"><h4>Role re-derived server-side</h4><p>Every privileged action looks up the caller's role fresh from the Users sheet on every call. The client never gets to assert who it is.</p></div>
+        <div class="sec-item"><h4>Passwordless, rate-limited</h4><p>The one-time email code expires in 10 minutes, and sign-in locks for 15 minutes after 5 incorrect attempts.</p></div>
+        <div class="sec-item"><h4>Nothing fails silently</h4><p>Branding, emails, and the application form are all built to degrade gracefully - a missing logo or a flaky mail client never blocks the actual workflow.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8: Closing -->
+  <section class="slide closing" data-title="Get started">
+    <div class="slide-inner">
+      <div class="eyebrow">Ready when you are</div>
+      <h2>Open cohorts, and let the pipeline run itself.</h2>
+      <p class="lede-lg">The portal is live today. Open a cohort, share the application link, and applications, scoring, and decisions flow through one system from here on.</p>
+      <a class="go" href="https://script.google.com/a/macros/kletech.ac.in/s/AKfycbxEOQKwLsyxTDGVhbm3Ca2xbD62g6pfJ5mwUlHnQbw/exec">Open the live portal &rarr;</a>
+    </div>
+  </section>
+
+</div>
+</div>
+
+<div class="footer">Made with <span class="heart">&#10084;&#65039;</span> by EE Lab, KLE-CTIE</div>
+
+<script>
+  document.getElementById('briefDate').textContent = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+
+  // Nav rail dots, one per slide, built from each section's data-title.
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var rail = document.getElementById('rail');
+  slides.forEach(function (s, i) {
+    var btn = document.createElement('button');
+    var tip = document.createElement('span');
+    tip.className = 'tip';
+    tip.textContent = s.dataset.title || ('Slide ' + (i + 1));
+    btn.appendChild(tip);
+    btn.addEventListener('click', function () { s.scrollIntoView({ behavior: 'smooth' }); });
+    rail.appendChild(btn);
+  });
+  var railButtons = Array.prototype.slice.call(rail.querySelectorAll('button'));
+
+  var shell = document.getElementById('appShell');
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var idx = slides.indexOf(entry.target);
+      if (entry.isIntersecting) {
+        railButtons.forEach(function (b, i) { b.classList.toggle('on', i === idx); });
+        entry.target.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+      }
+    });
+  }, { root: shell, threshold: 0.5 });
+  slides.forEach(function (s) { observer.observe(s); });
+</script>
+</body>
+</html>
