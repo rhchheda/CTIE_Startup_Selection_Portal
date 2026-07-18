@@ -125,6 +125,30 @@ h2.title{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.01em;}
 .benefit-card li strong{color:var(--ink-900);font-weight:700;}
 @media (max-width:760px){.benefit-grid{grid-template-columns:1fr;}}
 
+/* Reports mockup - data-driven, not a screenshot; numbers come from the real Seed.gs demo dataset */
+.report-stats{margin-top:36px;display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.report-stat{background:var(--surface);padding:20px 10px;text-align:center;}
+.report-stat .v{font-size:26px;font-weight:800;color:var(--navy-900);}
+.report-stat .v.accent{color:var(--gold-600);}
+.report-stat .l{font-size:10px;color:var(--ink-400);text-transform:uppercase;letter-spacing:.05em;margin-top:6px;line-height:1.4;}
+@media (max-width:760px){.report-stats{grid-template-columns:repeat(3,1fr);}}
+.bar-title{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-400);margin-bottom:14px;}
+.bar-block{display:flex;flex-direction:column;gap:9px;}
+.bar-row{display:grid;grid-template-columns:130px 1fr 24px;align-items:center;gap:12px;font-size:12.5px;}
+.bar-name{color:var(--ink-900);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-track{height:13px;background:var(--bg);border-radius:2px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:2px;}
+.bar-count{text-align:right;color:var(--ink-400);}
+@media (max-width:600px){.bar-row{grid-template-columns:96px 1fr 20px;gap:8px;}.bar-name{font-size:11px;}}
+
+/* Pipeline (Kanban) mockup - mirrors the live Staff console's actual board layout/colors */
+.kanban-mock{margin-top:40px;display:grid;grid-template-columns:repeat(6,minmax(140px,1fr));gap:10px;overflow-x:auto;}
+.kmock-col{background:var(--bg);border-radius:8px;padding:10px;min-height:110px;}
+.kmock-col h5{font-size:11px;display:flex;justify-content:space-between;align-items:center;margin:0 0 8px;color:var(--ink-600);}
+.kmock-col h5 .count{background:var(--navy-800);color:#fff;border-radius:999px;font-size:10px;padding:1px 7px;}
+.kmock-card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px;margin-bottom:6px;font-size:11px;font-weight:700;color:var(--ink-900);box-shadow:0 1px 2px rgba(11,37,64,.06);}
+.kmock-more{font-size:10.5px;color:var(--ink-400);padding:2px 2px;}
+
 /* Security */
 .sec-grid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 .sec-item h4{font-size:14px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
@@ -269,6 +293,73 @@ h2.title{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.01em;}
         <div class="rubric-cell"><span class="n">04</span><h4>Financial Viability</h4><p>Do the CAPEX, OPEX, P&amp;L, and revenue path hold together?</p></div>
         <div class="rubric-cell"><span class="n">05</span><h4>Stage Readiness</h4><p>Is the startup's current stage realistic for what they're asking for?</p></div>
         <div class="rubric-cell"><span class="n">06</span><h4>Strategic Fit</h4><p>Make in India, import substitution, ecosystem strengthening, or social impact.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5b: Reports - data-driven mockup, not a screenshot -->
+  <section class="slide" data-title="Reports">
+    <div class="slide-inner">
+      <div class="eyebrow">Oversight in practice</div>
+      <h2 class="title reveal">What CTIE staff actually see - not a mockup image.</h2>
+      <p class="lede-lg reveal">Every number below is read directly from the same seed dataset used to test this system end to end - nothing here is illustrative.</p>
+
+      <div class="report-stats reveal">
+        <div class="report-stat"><div class="v mono">18</div><div class="l">Applications</div></div>
+        <div class="report-stat"><div class="v mono">2</div><div class="l">Cohorts</div></div>
+        <div class="report-stat"><div class="v mono">3</div><div class="l">Jury members</div></div>
+        <div class="report-stat"><div class="v mono accent">6</div><div class="l">Selected</div></div>
+        <div class="report-stat"><div class="v mono accent">12</div><div class="l">Decisions recorded</div></div>
+        <div class="report-stat"><div class="v mono">27</div><div class="l">Rubric scores submitted</div></div>
+      </div>
+
+      <div style="margin-top:36px" class="reveal">
+        <h4 class="bar-title">Applications by status</h4>
+        <div class="bar-block">
+          <div class="bar-row"><span class="bar-name">Selected</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--success);"></div></div><span class="bar-count mono">6</span></div>
+          <div class="bar-row"><span class="bar-name">Not Selected</span><div class="bar-track"><div class="bar-fill" style="width:66.6%;background:var(--danger);"></div></div><span class="bar-count mono">4</span></div>
+          <div class="bar-row"><span class="bar-name">Submitted</span><div class="bar-track"><div class="bar-fill" style="width:33.3%;background:var(--navy-600);"></div></div><span class="bar-count mono">2</span></div>
+          <div class="bar-row"><span class="bar-name">Under Review</span><div class="bar-track"><div class="bar-fill" style="width:33.3%;background:var(--navy-600);"></div></div><span class="bar-count mono">2</span></div>
+          <div class="bar-row"><span class="bar-name">Shortlisted</span><div class="bar-track"><div class="bar-fill" style="width:33.3%;background:var(--gold-500);"></div></div><span class="bar-count mono">2</span></div>
+          <div class="bar-row"><span class="bar-name">On Hold</span><div class="bar-track"><div class="bar-fill" style="width:33.3%;background:var(--ink-400);"></div></div><span class="bar-count mono">2</span></div>
+        </div>
+      </div>
+      <p style="margin-top:24px;font-size:12.5px;color:var(--ink-400);" class="reveal">Same view exports to CSV for panel meetings, board reporting, or a funder update - no manual re-entry.</p>
+    </div>
+  </section>
+
+  <!-- 5c: Pipeline - Kanban mockup mirroring the live Staff console's board -->
+  <section class="slide dark-bg" data-title="Pipeline">
+    <div class="slide-inner">
+      <div class="eyebrow">The review pipeline</div>
+      <h2 class="title reveal">One board, every application, always current.</h2>
+      <p class="lede-lg reveal">Staff track every application's stage at a glance - no separate tracker to keep in sync.</p>
+      <div class="kanban-mock reveal">
+        <div class="kmock-col"><h5>Submitted <span class="count">2</span></h5>
+          <div class="kmock-card">AgriSense Robotics</div>
+          <div class="kmock-card">EcoPack Solutions</div>
+        </div>
+        <div class="kmock-col"><h5>Under Review <span class="count">2</span></h5>
+          <div class="kmock-card">MedTrack Health</div>
+          <div class="kmock-card">FinLedger</div>
+        </div>
+        <div class="kmock-col"><h5>Shortlisted <span class="count">2</span></h5>
+          <div class="kmock-card">UrbanMobility Labs</div>
+          <div class="kmock-card">SkillBridge EdTech</div>
+        </div>
+        <div class="kmock-col"><h5>Selected <span class="count">6</span></h5>
+          <div class="kmock-card">PureWater Systems</div>
+          <div class="kmock-card">CraftLoom Textiles</div>
+          <div class="kmock-more">+4 more</div>
+        </div>
+        <div class="kmock-col"><h5>Not Selected <span class="count">4</span></h5>
+          <div class="kmock-card">QuickServe Logistics</div>
+          <div class="kmock-more">+3 more</div>
+        </div>
+        <div class="kmock-col"><h5>On Hold <span class="count">2</span></h5>
+          <div class="kmock-card">SolarNest Energy</div>
+          <div class="kmock-more">+1 more</div>
+        </div>
       </div>
     </div>
   </section>
